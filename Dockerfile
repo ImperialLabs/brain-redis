@@ -1,4 +1,4 @@
-FROM redis/3-alpine
+FROM redis:3-alpine
 
 MAINTAINER SLAPI Devs
 
