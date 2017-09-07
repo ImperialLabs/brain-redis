@@ -2,11 +2,11 @@ FROM redis:3-alpine
 
 MAINTAINER SLAPI Devs
 
-ENV APP_HOME /api
+ENV APP_HOME /brain
 
 RUN mkdir -p $APP_HOME && chmod 777 $APP_HOME
 
-WORKDIR /api
+WORKDIR /brain
 
 COPY supervisord.conf /etc/supervisor.d/supervisord.conf
 
