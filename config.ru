@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-require_relative 'brain'
+require_relative 'lib/brain'
 run Brain
