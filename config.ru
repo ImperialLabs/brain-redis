@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-require_relative 'redis_brain'
+require_relative 'brain'
 run Brain

@@ -22,7 +22,7 @@ class Brain < Sinatra::Base
   config_file 'environments.yml'
 
   config_file 'bot.yml' if File.file?('./bot.yml')
-  raise 'No config found! Please attach bot.yml to adapter container' unless File.file?('./bot.yml')
+  raise 'No config found! Please attach bot.yml to brain container' unless File.file?('./bot.yml')
 
   # For future token assignments
   @headers = {}
