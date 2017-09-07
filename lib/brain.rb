@@ -5,6 +5,7 @@ require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/config_file'
 require 'redis'
+require 'logger'
 
 # Slapi Class - Primary Class
 # Its main functions are to:
