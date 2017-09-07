@@ -16,20 +16,18 @@ class Brain < Sinatra::Base
   set :root, File.dirname(__FILE__)
   register Sinatra::ConfigFile
 
+  config_file '../environments.yml'
+  config_file '../bot.yml'
+
   configure :production, :test, :development do
     enable :logging
   end
-
-  config_file 'environments.yml'
-
-  config_file 'bot.yml' if File.file?('./bot.yml')
-  raise 'No config found! Please attach bot.yml to brain container' unless File.file?('./bot.yml')
 
   # For future token assignments
   @headers = {}
 
   @logger = Logger.new(STDOUT)
-  @logger.level = settings.logger_level
+  @logger.level = 'debug'
 
   @redis = Redis.new
 

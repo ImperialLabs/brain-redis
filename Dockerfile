@@ -30,10 +30,8 @@ RUN apk update && apk add \
     linux-headers &&\
     if [ -f Gemfile.lock ]; then rm -f Gemfile.lock; fi &&\
     echo 'gem: --no-document' >> /root/.gemrc &&\
-    gem install json \
-    sinatra \
-    sinatra-contrib \
-    redis &&\
+    gem install bundle &&\
+    bundle install &&\
     apk del .ruby-builddeps &&\
     rm -rf /var/cache/apk/* &&\
     rm -rf /tmp/*
