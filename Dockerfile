@@ -14,12 +14,27 @@ COPY supervisord.conf /etc/supervisor.d/supervisord.conf
 COPY . $APP_HOME
 
 RUN apk update && apk add \
-    supervisor &&\
+    supervisor \
+    ruby &&\
+    runDeps="$( \
+        scanelf --needed --nobanner --recursive /usr/local \
+            | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+            | sort -u \
+            | xargs -r apk info --installed \
+            | sort -u \
+    )" &&\
     if [ -f Gemfile.lock ]; then rm -f Gemfile.lock; fi &&\
+    apk add --virtual .ruby-builddeps $runDeps \
+    ruby-dev \
+    build-base \
+    linux-headers &&\
+    if [ -f Gemfile.lock ]; then rm -f Gemfile.lock; fi &&\
+    echo 'gem: --no-document' >> /root/.gemrc &&\
     gem install json \
     sinatra \
     sinatra-contrib \
     redis &&\
+    apk del .ruby-builddeps &&\
     rm -rf /var/cache/apk/* &&\
     rm -rf /tmp/*
 
