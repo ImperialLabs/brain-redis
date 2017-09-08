@@ -29,16 +29,16 @@ class Brain < Sinatra::Base
   @logger = Logger.new(STDOUT)
   @logger.level = 'debug'
 
-  @redis = Redis.new
+  @@redis = Redis.new
 
   post '/query' do
     raise 'missing hash' unless params[:hash]
     begin
       if params[:key]
-        body redis.hmget(params[:hash], params[:key])
+        body @@redis.hmget(params[:hash], params[:key])
         @logger.debug("Key retrieved for #{hash_name}")
       else
-        body redis.hmget(params[:hash])
+        body @redis.hmget(params[:hash])
         @logger.debug("Hash retrieved for #{hash_name}")
       end
       status 200
@@ -52,7 +52,7 @@ class Brain < Sinatra::Base
   post '/delete' do
     raise 'missing channel' unless params[:hash]
     begin
-      body @redis.hdel(hash_name, key)
+      body @@redis.hdel(hash_name, key)
       @logger.debug("Data deleted for #{hash_name}")
       status 200
     rescue => e
@@ -65,7 +65,7 @@ class Brain < Sinatra::Base
   post '/save' do
     raise 'missing channel' unless params[:hash]
     begin
-      body @redis.hmset(hash_name, key, value)
+      body @@redis.hmset(hash_name, key, value)
       @logger.debug("Data saved for #{hash_name}")
       status 200
     rescue => e
